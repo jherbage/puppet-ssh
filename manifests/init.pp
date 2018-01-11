@@ -42,7 +42,18 @@
 #
 # Copyright 2017 Your name here, unless otherwise noted.
 #
-class ssh {
+class ssh(
+  Boolean $permit_root_login, 
+  String $config_source,
+  String $package_name,
+  String $service_name,
+  Integer $port = 22,
+) {
+  class { '::ssh::install': } 
+  class { '::ssh::config': }
+  class { '::ssh::service': }
 
-
+  Class['::ssh::install']
+  -> Class['::ssh::config']
+  ~> Class['::ssh::service']
 }
